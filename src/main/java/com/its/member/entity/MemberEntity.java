@@ -13,25 +13,26 @@ public class MemberEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+
+    @Column
     private Long id;
 
-    @Column(name = "memberEmail", length = 50, unique = true)
+    @Column(length = 50, unique = true)
     private String memberEmail;
 
-    @Column(name = "memberPassword", length = 20)
+    @Column(length = 20)
     private String memberPassword;
 
-    @Column(name = "memberName", length = 20)
+    @Column(length = 20)
     private String memberName;
 
-    @Column(name = "memberAge")
+    @Column
     private int memberAge;
 
-    @Column(name = "memberPhone", length = 30)
+    @Column(length = 30)
     private String memberPhone;
 
-    public static MemberEntity toEntity(MemberDTO memberDTO) {
+    public static MemberEntity toSaveEntity(MemberDTO memberDTO) {
         MemberEntity memberEntity = new MemberEntity();
         memberEntity.setMemberEmail(memberDTO.getMemberEmail());
         memberEntity.setMemberPassword(memberDTO.getMemberPassword());

@@ -1,11 +1,14 @@
 package com.its.member.dto;
 
 import com.its.member.entity.MemberEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
     private Long id;
     private String memberEmail;
@@ -22,7 +25,7 @@ public class MemberDTO {
         this.memberPhone = memberPhone;
     }
 
-    public static MemberDTO toDTO(MemberEntity memberEntity) {
+    public static MemberDTO toMemberDTO(MemberEntity memberEntity) {
         MemberDTO memberDTO = new MemberDTO();
         memberDTO.setId(memberEntity.getId());
         memberDTO.setMemberEmail(memberEntity.getMemberEmail());
