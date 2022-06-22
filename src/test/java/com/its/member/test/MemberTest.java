@@ -9,6 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 public class MemberTest {
@@ -16,8 +19,8 @@ public class MemberTest {
     @Autowired
     private MemberService memberService;
 
-    public MemberDTO newMember() {
-        MemberDTO memberDTO = new MemberDTO("테스트용이메일", "테스트용비밀번호", "테스트용이름", 99, "테스트용전화번호");
+    public MemberDTO newMember(int i) {
+        MemberDTO memberDTO = new MemberDTO("테스트용이메일"+i, "테스트용비밀번호"+i, "테스트용이름"+i, 99+i, "테스트용전화번호"+i);
         return memberDTO;
     }
 
@@ -28,9 +31,9 @@ public class MemberTest {
     public void saveTest() {
 //        MemberDTO memberDTO = new MemberDTO("aa", "aa", "aa", 10, "aa");
 //        Long saveId = memberService.save(memberDTO);
-        Long saveId = memberService.save(newMember());
+        Long saveId = memberService.save(newMember(1));
         MemberDTO findDTO = memberService.findById(saveId);
-        assertThat(newMember().getMemberEmail()).isEqualTo(findDTO.getMemberEmail());
+        assertThat(newMember(1).getMemberEmail()).isEqualTo(findDTO.getMemberEmail());
     }
 
     @Test
@@ -52,5 +55,25 @@ public class MemberTest {
         MemberDTO loginResult = memberService.login(loginMemberDTO);
         // 로그인 결과가 not null 이면 테스트 통과
         assertThat(loginResult).isNotNull();
+    }
+
+    @Test
+    @DisplayName("회원 데이터 저장")
+    public void memberSave() {
+        IntStream.rangeClosed(1,20).forEach(i -> {
+            memberService.save(newMember(i));
+        });
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    @DisplayName("회원목록 테스트")
+    public void findAllTest() {
+        IntStream.rangeClosed(1,3).forEach(i -> {
+            memberService.save(new MemberDTO("이메일" + i, "비밀번호" + i, "이름" + i, 99, "전화번호" + i));
+        });
+        List<MemberDTO> memberList = memberService.findAll();
+        assertThat(memberList.size()).isEqualTo(3);
     }
 }
