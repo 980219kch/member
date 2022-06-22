@@ -76,4 +76,12 @@ public class MemberTest {
         List<MemberDTO> memberList = memberService.findAll();
         assertThat(memberList.size()).isEqualTo(3);
     }
+
+    @Test
+    @Transactional
+    @Rollback
+    @DisplayName("상세조회 테스트")
+    public void detailTest() {
+
+    }
 }

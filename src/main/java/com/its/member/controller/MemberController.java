@@ -52,4 +52,11 @@ public class MemberController {
         return "memberPages/list";
     }
 
+    @GetMapping("/{id}")
+    public String detail(@PathVariable("id") Long id, Model model) {
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member", memberDTO);
+        return "memberPages/detail";
+    }
+
 }

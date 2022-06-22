@@ -24,8 +24,8 @@ public class MemberService {
 
     }
 
-    public MemberDTO findById(Long saveId) {
-        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(saveId);
+    public MemberDTO findById(Long id) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(id);
         if(optionalMemberEntity.isPresent()) {
 //            return MemberDTO.toMemberDTO(optionalMemberEntity.get());
             MemberEntity memberEntity = optionalMemberEntity.get();
