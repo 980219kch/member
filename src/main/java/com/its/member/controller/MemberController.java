@@ -3,6 +3,8 @@ package com.its.member.controller;
 import com.its.member.dto.MemberDTO;
 import com.its.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -65,5 +67,33 @@ public class MemberController {
         return memberDTO;
     }
 
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id) {
+        memberService.delete(id);
+        return "redirect:/member/";
+    }
 
+    /**
+     * /member/3 : 조회(get) R, 저장(post) C, 수정(put) U, 삭제(delete) D
+     */
+
+    // delete 요청 삭제
+    @DeleteMapping("/{id}")
+    public ResponseEntity ajaxDelete(@PathVariable("id") Long id) {
+        memberService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK); // ajax 호출한 부분에 리턴으로 200 응답을 줌.
+    }
+
+    @GetMapping("/update/{id}")
+    public String updateForm(@PathVariable("id") Long id, Model model) {
+        MemberDTO memberDTO = memberService.findById(id);
+        model.addAttribute("member", memberDTO);
+        return "memberPages/update";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute MemberDTO memberDTO) {
+        memberService.update(memberDTO);
+        return "redirect:/member/{id}";
+    }
 }

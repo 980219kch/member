@@ -65,4 +65,13 @@ public class MemberService {
         }
         return findList;
     }
+
+    public void delete(Long id) {
+        memberRepository.deleteById(id);
+    }
+
+    public void update(MemberDTO memberDTO) {
+        MemberEntity memberEntity = MemberEntity.toSaveEntity(memberDTO);
+        memberRepository.save(memberEntity);
+    }
 }

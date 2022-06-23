@@ -30,7 +30,7 @@
             <td><a th:href="@{|/member/delete/${member.id}|}">삭제</a></td>
             <!-- 삭제 요청을 ajax로. type을 post가 아닌 delete로 하고
                 controller에서 @DeleteMapping을 사용함.(삭제하는 코드는 동일함) -->
-            <td><button th:onclick="delete([[${member.id}]])">삭제(ajax)</button></td>
+            <td><button th:onclick="deleteById([[${member.id}]])">삭제(ajax)</button></td>
         </tr>
     </table>
     <div id="member-detail">
@@ -38,6 +38,19 @@
     </div>
 </body>
 <script th:inline="javascript">
+    const deleteById = (id) => {
+        $.ajax({
+            type: "delete",
+            url: "/member/"+id,
+            // dataType: "text",
+            success: function () { // status code = 200
+                location.href = "/member/";
+            },
+            error: function () {
+                alert("오류");
+            }
+        });
+    }
     const detail = (id) => {
         const memberDetail = document.getElementById("member-detail");
         $.ajax({
