@@ -41,7 +41,7 @@ public class MemberController {
         if(loginResult != null) {
             session.setAttribute("loginEmail", loginResult.getMemberEmail());
             session.setAttribute("id", loginResult.getId());
-            return "memberPages/main";
+            return "memberPages/mypage";
         } else {
             return "memberPages/login";
         }
@@ -84,16 +84,32 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.OK); // ajax 호출한 부분에 리턴으로 200 응답을 줌.
     }
 
-    @GetMapping("/update/{id}")
-    public String updateForm(@PathVariable("id") Long id, Model model) {
+    // 수정화면 요청
+    @GetMapping("/update")
+    public String updateForm(HttpSession session, Model model) {
+        Long id = (Long) session.getAttribute("id");
         MemberDTO memberDTO = memberService.findById(id);
-        model.addAttribute("member", memberDTO);
+        model.addAttribute("updateMember", memberDTO);
         return "memberPages/update";
     }
 
     @PostMapping("/update")
     public String update(@ModelAttribute MemberDTO memberDTO) {
         memberService.update(memberDTO);
-        return "redirect:/member/{id}";
+        return "redirect:/member/"+memberDTO.getId();
+    }
+
+    // 수정처리(put 요청)
+    @PutMapping("/{id}")
+    public ResponseEntity updateByAjax(@RequestBody MemberDTO memberDTO) {
+        memberService.update(memberDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 이메일 중복체크
+    @PostMapping("/emailCheck")
+    public @ResponseBody String emailCheck(@RequestParam("memberEmail") String memberEmail) {
+        String checkResult = memberService.emailCheck(memberEmail);
+        return checkResult;
     }
 }

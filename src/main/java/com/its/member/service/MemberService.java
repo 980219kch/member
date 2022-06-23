@@ -71,7 +71,16 @@ public class MemberService {
     }
 
     public void update(MemberDTO memberDTO) {
-        MemberEntity memberEntity = MemberEntity.toSaveEntity(memberDTO);
+        MemberEntity memberEntity = MemberEntity.toUpdateEntity(memberDTO);
         memberRepository.save(memberEntity);
+    }
+
+    public String emailCheck(String memberEmail) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(memberEmail);
+        if(optionalMemberEntity.isEmpty()) {
+            return "ok";
+        } else {
+            return "no";
+        }
     }
 }
