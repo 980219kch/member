@@ -59,4 +59,11 @@ public class MemberController {
         return "memberPages/detail";
     }
 
+    @PostMapping("/ajax/{id}")
+    public @ResponseBody MemberDTO ajaxDetail(@PathVariable("id") Long id) {
+        MemberDTO memberDTO = memberService.findById(id);
+        return memberDTO;
+    }
+
+
 }

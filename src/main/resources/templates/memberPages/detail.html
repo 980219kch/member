@@ -6,11 +6,23 @@
 </head>
 <body>
     <h2>detail</h2>
-    id: <span th:text="${member.id}"></span> <br>
-    memberEmail: <span th:text="${member.memberEmail}"></span> <br>
-    memberPassword: <span th:text="${member.memberPassword}"></span> <br>
-    memberName: <span th:text="${member.memberName}"></span> <br>
-    memberAge: <span th:text="${member.memberAge}"></span> <br>
-    memberPhone: <span th:text="${member.memberPhone}"></span>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>email</th>
+            <th>password</th>
+            <th>name</th>
+            <th>age</th>
+            <th>phone</th>
+        </tr>
+        <tr>
+            <td th:text="${member.id}"></td>
+            <td th:text="${member.memberEmail}"></td>
+            <td th:text="${member.memberPassword}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td th:text="${member.memberAge}"></td>
+            <td th:text="${member.memberPhone}"></td>
+        </tr>
+    </table>
 </body>
 </html>
