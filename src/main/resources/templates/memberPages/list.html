@@ -55,7 +55,7 @@
     const detail = (id) => {
         const memberDetail = document.getElementById("member-detail");
         $.ajax({
-            type: "post",
+            type: "get",
             url: "/member/ajax/"+id,
             dataType: "json",
             success: function (result) {
